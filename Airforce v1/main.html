@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./ship.js" type="text/javascript"></script>
+    <script src="./eventlisteners.js" type="text/javascript"></script>
+    <script src="./bullets.js" type="text/javascript"></script>
+    <script src="./enemy.js" type="text/javascript"></script>
+    <script src="./formations.js" type="text/javascript"></script>
+    <script src="./collision.js" type="text/javascript"></script>
+    <script src="./random.js" type="text/javascript"></script>
+    <script src="./enemyBullets.js" type="text/javascript"></script>
+    <title>part5</title>
+    <style>
+      canvas{
+        background-image: url("stars.jpg");
+      }
+    </style>
+
+</head>
+<body>
+  <p align="center"><canvas id="canvas" width="700" height="900" ></canvas>  </p>
+  <script>
+
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let shipSprite = new Image();
+  shipSprite.src = "korab1.png";
+  let bulletSprite = new Image();
+  bulletSprite.src = "bullet.png";
+  let enemySprite = new Image();
+  enemySprite.src = "enemy.png";
+  let enemyBulletSprite = new Image();
+  enemyBulletSprite.src = "enemyyb.png";
+  
+
+  document.addEventListener('keydown', keyDown);
+  document.addEventListener('keyup', keyUp);
+  let rightPressed = false;
+  let leftPressed = false;
+  let cPressed = false;
+  let ship = new Ship(canvas.width/2 - 32, canvas.height - 125);
+  let bullets = [];
+  let enemies = [];
+  let enemyBullets = [];
+  let form1 = false;
+  let form2 = false;
+  let kills = 0;
+  let enemiesPerTick = 2;
+  const centeredEnemies = canvas.width/2-32;
+  function drawKills(){
+    ctx.font="30px Comic Sans MS";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "center";
+    ctx.fillText("kills:" + kills, 50, 30);
+  }
+  function enemyShoot(){
+    enemies.forEach(enemy => {
+      enemy.shoot();
+    });
+  }
+  const bulletsPerTick = 1;
+  ship.draw();
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    enemies = enemies.filter((enemy) => enemy.y < canvas.height);
+    bullets.forEach(bullet => {
+        bullet.draw();
+        bullet.move();
+    });
+    drawKills();
+    formation1();
+    enemyBullets.forEach(enbullet => {
+      enbullet.draw();
+      enbullet.move();
+    });
+    enemies.forEach(enemy => {
+      enemy.draw();
+      enemy.move();
+      enemy.showHealth();
+    });
+    ship.draw();
+    ship.move();
+    collision();
+      requestAnimationFrame(draw);
+  }
+  setInterval(enemyShoot,1000);
+  draw();
+  </script>
+</body>
+</html>

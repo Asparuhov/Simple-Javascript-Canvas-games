@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        canvas {
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <p align="center"><canvas width="600" height="600" id="canv"></canvas></p>
+    <script>
+        const canvas = document.getElementById('canv');
+        const ctx = canvas.getContext("2d");
+        let time = 0;
+        const colors = ['red', 'green', 'blue', 'yellow', 'pink', 'purple', 'black', 'aqua', 'white'];
+        const original = [...colors];
+        let figures = [];
+        let colorHistory = [];
+        let options = [];
+        function Rect(color, x, y) {
+            this.color = color;
+            this.x = x;
+            this.y = y;
+            this.draw = function () {
+                ctx.beginPath();
+                ctx.rect(this.x, this.y, 100, 100);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath()
+            }
+        }
+        function Circle(color,x,y){
+            this.color = color;
+            this.x = x;
+            this.y = y;
+            this.draw = function(){
+                ctx.beginPath();
+                ctx.arc(this.x,this.y,20, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
+        function level1() {
+
+
+        }
+        function draw() {
+            figures.forEach(rect => {
+                rect.draw();
+            });
+            
+            requestAnimationFrame(draw);
+        }
+        draw();
+        var interval = setInterval(function () {
+            let rect1 = new Rect(colors.splice(parseInt(Math.random() * colors.length), 1)[0], canvas.width / 2 - 100, canvas.height / 2 - 100);
+            let rect2 = new Rect(colors.splice(parseInt(Math.random() * colors.length), 1)[0], canvas.width / 2 + 50, canvas.height / 2 - 100);
+            let rect3 = new Rect(colors.splice(parseInt(Math.random() * colors.length), 1)[0], canvas.width / 2 - 100, canvas.height / 2 + 50);
+            let rect4 = new Rect(colors.splice(parseInt(Math.random() * colors.length), 1)[0], canvas.width / 2 + 50, canvas.height / 2 + 50);
+            colorHistory.push(rect1.color,rect2.color,rect3.color,rect4.color)
+            figures.push(rect1, rect2, rect3, rect4);
+            
+
+            time += 1;
+            if (time == 2) {
+                clearInterval(interval);
+                figures.forEach(el => {
+                  el.color = 'white';
+                  
+                });
+                let circle1 = new Circle(original[0], 50,33);
+                  let circle2 = new Circle(original[1], 50,99 );
+                  let circle3 = new Circle(original[2], 50,165);
+                  let circle4 = new Circle(original[3], 50,231);
+                  let circle5 = new Circle(original[4], 50,297);
+                  let circle6 = new Circle(original[5], 50,363);
+                  let circle7 = new Circle(original[6], 50,429);
+                  let circle8 = new Circle(original[7], 50,495);
+                  let circle9 = new Circle(original[8], 50,561);
+                  options.push(circle1,circle2,circle3,circle4,circle5,circle6,circle7,circle8,circle9);
+                  options.forEach(op => {
+                      op.draw();
+                  });
+            console.log(colors);
+              console.log(colorHistory);
+            }
+            
+        }, 500); 
+    </script>
+</body>
+
+</html>

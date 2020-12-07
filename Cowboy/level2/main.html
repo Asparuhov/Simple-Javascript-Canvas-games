@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+       
+<style>
+canvas {
+    background: url("sand.jpg");
+}
+</style>
+
+    <script src="hero.js" type="text/javascript"></script>
+    <script src="keyhandlers.js" type="text/javascript"></script>
+    <script src="bullet.js" type="text/javascript"></script>
+    <script src="enemy.js" type="text/javascript"></script>
+    <script src="random.js" type="text/javascript"></script>
+    <script src="collision.js" type="text/javascript"></script>
+    <script src="boss1.js" type="text/javascript"></script>
+</head>
+
+<body onload="al()">
+    <canvas id="canv" width="900" height="600"></canvas>
+    <script>
+        function al(){
+            alert("hey");
+
+
+        }
+        var canvas = document.getElementById("canv");
+        var ctx = canvas.getContext("2d");
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+        var bullets = [];
+        var enemies = [];
+        var sprite = new Image();
+        var enemySprite = new Image();
+        var boss1Sprite = new Image();
+        enemySprite.src = "drow_male2.png"
+        sprite.src = "indianajones.png";
+        boss1Sprite.src = "drax.png"
+        var hero;
+        var bullet;
+        var enemy;
+        var enemiesPerTick = 5;
+        var viewLimit = canvas.width;
+        var viewLimit1 = 0;
+        var kills = 0;
+        var health = 100;
+        hero = new Hero();
+        var boss1 = new Boss1(canvas.width, canvas.height / 2)
+
+        function drawScore() {
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "green";
+            ctx.fillText("Enemies taken down:" + kills, 8, 20);
+        }
+
+        function draw() {
+            bullets = bullets.filter((bullet) => bullet.x <= viewLimit);
+            enemies = enemies.filter((enemy) => enemy.x >= viewLimit1);
+            while (enemies.length <= enemiesPerTick && kills <= 5) {
+                var enemy = new Enemy(canvas.width, random(0, canvas.height - 60));
+                enemies.push(enemy);
+            }
+            for (var v = 0; v < enemies.length; v++) {
+                enemies[v].showHealth();
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hero.show();
+            hero.update();
+            hero.showHealth();
+            for (var i = 0; i < bullets.length; i++) {
+                bullets[i].show();
+                bullets[i].move();
+            }
+            for (var j = 0; j < enemies.length; j++) {
+                enemies[j].show();
+                enemies[j].move();
+            }
+            for (var t = 0; t < enemies.length; t++) {
+                enemies[t].showHealth();
+            }
+
+            collision();
+            drawScore();
+            requestAnimationFrame(draw);
+        }
+        console.log(enemies, bullets);
+        draw();
+    </script>
+</body>
+
+</html>

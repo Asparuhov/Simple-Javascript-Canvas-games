@@ -1,0 +1,94 @@
+<html>
+<head>
+    <style>
+        canvas{
+            background:#eee;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canv" width="800" height="600"></canvas>
+<script>
+var canvas = document.getElementById("canv");
+var ctx = canvas.getContext("2d");
+document.addEventListener("keydown", keyDownHandler,false);
+document.addEventListener("keyup", keyUpHandler, false);
+var character = new Image();
+character.src = "indianajones.png";
+var x = canvas.width/2;
+var y = canvas.height/2;
+var picWidth = 128;
+var picHeight = 192;
+var frameWidth = picWidth/4;
+var frameHeight = picHeight/4;
+var cPressed = false;
+var rightPressed = false;
+var leftPressed = false;
+var upPressed = false;
+var downPressed = false;
+var dx = 5;
+var dy = -5;
+var directionMode = 3;
+var currentFrame = 0;
+function updateFrame(){
+    currentFrame += 0.2;
+}
+function keyDownHandler(e){
+    if(e.key == "ArrowRight") {
+        rightPressed = true;
+        directionMode = 2;
+    }
+    else if(e.key == "ArrowLeft") {
+        leftPressed = true;
+        directionMode = 1;
+    }
+    if(e.key == "ArrowUp") {
+        upPressed = true;
+        directionMode = 3;
+    }
+    else if(e.key == "ArrowDown") {
+        downPressed = true;
+        directionMode = 0;
+    }
+}
+function keyUpHandler(e){
+    if(e.key == "ArrowRight") {
+        rightPressed = false;
+    }
+    else if(e.key == "ArrowLeft") {
+        leftPressed = false;
+    }
+    if(e.key == "ArrowUp") {
+        upPressed = false;
+    }
+    else if(e.key == "ArrowDown") {
+        downPressed = false;
+    }
+}
+function drawImage(){
+    updateFrame();
+    var walkingMode = Math.floor(currentFrame) % 4;
+    ctx.clearRect(0,0, canvas.width, canvas.height);
+    ctx.drawImage(character, walkingMode*frameWidth, directionMode*frameHeight, frameWidth, frameHeight,x, y,frameWidth, frameHeight);
+}
+
+function draw(){
+    drawImage();
+    if(rightPressed && x < canvas.width - picWidth){
+            x = x + dx;
+        }
+    if (leftPressed && x > 0 ){
+            x = x - dx;
+        }
+    if (upPressed && y > 0 ){
+            y = y + dy;
+        }
+    if (downPressed && y < canvas.height - picHeight){
+            y = y - dy;
+        }
+     requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>

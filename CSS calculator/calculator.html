@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html|>
+<head>
+<style>
+button{
+    background-color:pink;
+    text-align:center;
+    text-decoration: none;
+    border :none;
+    width: 50px;
+    height:50px;
+    border-radius:8px;
+}
+body{
+    background-image:linear-gradient(to right,pink,white,yellow);
+}
+input{
+    width:212px;
+    height:50px;
+    background-image:linear-gradient(to right,pink,white,yellow);
+}
+#equals{
+    
+}
+#calc{
+    border:5px solid purple;
+    margin-right:1677px;
+    border-radius:8px;
+    background-image:radial-gradient(pink,purple,yellow);
+}
+</style>
+<script src="maincalc.js" type="javascript"></script>
+</head>
+<body>
+    <div id="calc">
+    <table>
+        <input type="text" id="text">
+        <tr>
+            <td><button onclick="document.getElementById('text').value = ''">c</button></td>
+            <td><button onclick="put('/')">/</button></td>
+            <td><button onclick="put('*')">*</button></td>
+            <td><button ><</button></td>
+        </tr>
+        <tr>
+            <td><button onclick="put(7)">7</button></td>
+            <td><button onclick="put(8)">8</button></td>
+            <td><button onclick="put(9)">9</button></td>
+            <td><button onclick="put('-')">-</button></td>
+        </tr>
+        <tr>
+            <td><button onclick="put(4)">4</button></td>
+            <td><button onclick="put(5)">5</button></td>
+            <td><button onclick="put(6)">6</button></td>
+            <td><button onclick="put('+')">+</button></td>
+        </tr>
+        <tr>
+            <td><button onclick="put(1)">1</button></td>
+            <td><button onclick="put(2)">2</button></td>
+            <td><button onclick="put(3)">3</button></td>
+            <td><button onclick="put('%')">%</button></td>
+        </tr>
+        <tr>
+            <td><button></button></td>
+            <td><button onclick="put(0)">0</button></td>
+            <td><button onclick="put('.')">.</button></td>
+            <td><button id="equals" onclick="equals()">=</button></td>
+        </tr>
+    </table>
+    </div>
+    <script>
+    
+    function put(e){
+        document.getElementById("text").value = document.getElementById("text").value + e;
+    } 
+    function equals(){
+        let exp = document.getElementById("text").value;
+        if(exp){
+            document.getElementById("text").value = eval(exp);
+        }
+    }
+    function deletion(){
+       
+    }
+    </script>
+</body>
+</html>
